@@ -75,7 +75,8 @@ def print_first_n_lines(path_to_file: Path, n: int):
     # read out the first 20 lines of the old file
     with path_to_file.open('r') as f:
         for i, line in enumerate(f):
-            print(line)
+            if len(line.strip()) > 0:
+                print(line)
             if i >= n:
                 break
 
@@ -89,20 +90,20 @@ def main(in_file: str, out_file: str, suffix: str, milliseconds: int):
     if out_file is not None:
         output_file: Path = Path(out_file).resolve()
     else:
-        output_file: Path = input_file.with_name(f"{input_file.stem} Copy .{input_file}")
+        output_file: Path = input_file.with_name(f"{input_file.stem} Copy{input_file.suffix}")
 
     # (Optional) Add language suffix to end of file name
     if suffix is not None:
-        output_file = input_file.with_name(f"{input_file.stem}.{suffix}.{input_file}")
+        output_file = input_file.with_name(f"{output_file.stem}.{suffix}{output_file.suffix}")
 
-    # read first N lines from old file
-    print_first_n_lines(path_to_file=input_file, n=20)
+    # # read first N lines from old file
+    # print_first_n_lines(path_to_file=input_file, n=20)
 
     # re-write old file
     parse(input_file=input_file, output_file=output_file, ms=milliseconds)
 
-    # read for N lines from new file
-    print_first_n_lines(path_to_file=output_file, n=20)
+    # # read for N lines from new file
+    # print_first_n_lines(path_to_file=output_file, n=20)
 
 
 if __name__ == "__main__":
